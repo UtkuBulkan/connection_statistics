@@ -1,6 +1,23 @@
 # connection_statistics
 * This is a wrapper c library for measuring connectivity statistics for a specific URL. It uses curl by default, yet it is designed to be used with any transfer library which fulfils the prerequisites of required api.
 
+Usage :
+git clone --recurse-submodules https://github.com/UtkuBulkan/connection_statistics.git conn_stats
+cd conn_stats
+make
+make test
+
+And below is the expected output :
+
+LD_LIBRARY_PATH=. ./conn_stats_test -n 5
+SKTEST;<108.177.126.105>;<200>;<0.014513>;<0.036288>;<0.128957>;<0.210864>
+SKTEST;<108.177.126.105>;<200>;<0.007266>;<0.018154>;<0.119666>;<0.177787>
+SKTEST;<108.177.126.105>;<200>;<0.000020>;<0.000020>;<0.128957>;<0.162521>
+SKTEST;<108.177.126.105>;<200>;<0.000022>;<0.000023>;<0.122836>;<0.157922>
+SKTEST;<108.177.126.105>;<200>;<0.000020>;<0.000020>;<0.128957>;<0.153323>
+
+Detailed Information about the Library and Test Application
+
 The library has declared following api :
 
 init_func, 
