@@ -101,7 +101,6 @@ static int my_trace(CURL *handle, curl_infotype type, char *data, size_t size, v
 			fprintf(stderr, "== Info: %s", data);
 		default: /* in case a new one is introduced to shock us */
 			return 0;
-
 		case CURLINFO_HEADER_OUT:
 			text = "=> Send header";
 			break;
