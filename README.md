@@ -13,24 +13,38 @@ make test
 And below is the expected output :
 
 LD_LIBRARY_PATH=. ./conn_stats_test -n 5
+
 SKTEST;<108.177.126.105>;<200>;<0.014513>;<0.036288>;<0.128957>;<0.210864>
+
 SKTEST;<108.177.126.105>;<200>;<0.007266>;<0.018154>;<0.119666>;<0.177787>
+
 SKTEST;<108.177.126.105>;<200>;<0.000020>;<0.000020>;<0.128957>;<0.162521>
+
 SKTEST;<108.177.126.105>;<200>;<0.000022>;<0.000023>;<0.122836>;<0.157922>
+
 SKTEST;<108.177.126.105>;<200>;<0.000020>;<0.000020>;<0.128957>;<0.153323>
 
 Detailed Information about the Library and Test Application
 
 The library has declared following api :
 
-init_func, 
+init_func,
+
 uninit_func uninit,
-enable_http_logs_func, 
-set_url_func, get_ip_address_func,
+
+enable_http_logs_func,
+
+set_url_func,
+get_ip_address_func,
+
 get_http_response_code_func,
+
 change_http_header_func,
+
 change_number_of_max_requests_func,
+
 perform_connection_request_func,
+
 collect_statistics_func
 
 * As long as these functions are assigned with the functionality of a transfer library of any sort, the wrapper library will work as expected and accumulate the statistics of connectivity.
@@ -47,15 +61,23 @@ connection_manager.set_url("http://www.google.com/");
 
 /* Triggering n number of requests and collection statistics while calculating medians */
 connection_statistics_median_init();
+
 for(int i=0;i<max_requests;i++) {
+
 	connection_manager.perform_connection_request();
+	
 	connection_manager.collect_statistics();
+	
 	accumulate_statistics();
+	
 	print_statistics();
+	
 }
 
 /* Uninitializing connection manager */
+
 connection_statistics_median_uninit();
+
 connection_manager.uninit();
 
 * The test file "conn_stats_test.c" has following command line option, "-H" for additional http headers ( this option supports to add many times with different headers, "-n" for the number of http get requests through the library and "-l" for enabling http communication logs.
