@@ -12,7 +12,7 @@ LOG_LEVEL=0
 lib: lib$(NAME).so.$(VERSION)
 
 test: $(NAME)_test
-	LD_LIBRARY_PATH=. ./$(NAME)_test -n 2 -l
+	LD_LIBRARY_PATH=. ./$(NAME)_test -n 5
 
 $(NAME)_test: lib$(NAME).so
 	$(CC) test/$(NAME)_test.c -I./src -L. -l$(NAME) -lcurl -o $@
