@@ -44,7 +44,7 @@ connection_manager.uninit();
 
 * After each http communication activity the statistics are accumulated and at any time the median is calculated through simple median implementation. Details of median can be found on : https://en.wikipedia.org/wiki/Median
 
-* The log "simple header c logger" is used as a submodule through git repository : https://github.com/dmcrodrigues/macro-logger.git
+* The logger library  "simple header c logger" is used as a submodule from git repository : https://github.com/dmcrodrigues/macro-logger.git
  
 
 
