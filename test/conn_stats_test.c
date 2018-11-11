@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
     while ((option = getopt(argc, argv,"lH:n:")) != -1) {
         switch (option) {
              case 'H' :
-            	 connection_manager.change_http_header(strdup(optarg));
+            	 connection_manager.change_http_header(optarg);
                  break;
              case 'n' :
             	 max_requests = atoi(optarg);
