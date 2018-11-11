@@ -7,7 +7,6 @@ MINOR := 0
 NAME := conn_stats
 VERSION := $(MAJOR).$(MINOR)
 INC = -I/usr/include/x86_64-linux-gnu/curl -I.
-LOG_LEVEL=0
 
 lib: lib$(NAME).so.$(VERSION)
 
