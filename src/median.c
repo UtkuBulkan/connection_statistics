@@ -52,7 +52,7 @@ int median_uninit(median_t *median)
 int median_add_number(median_t *median, MEDIAN_DATA_TYPE number)
 {
 	if (median->index >= median->size) {
-		return -1;
+		return CONN_FAIL;
 	}
 	median->data[median->index] = number;
 	median->index = median->index + 1;
@@ -74,7 +74,7 @@ static int median_compare (const void * a, const void * b)
 double median_find_median(median_t *median)
 {
 	qsort(median->data, median->index, sizeof(MEDIAN_DATA_TYPE), median_compare);
-	/* For debugging purposes */
+	/* Printing contents of the stored values, for debugging purposes */
 	for(int i = 0;i<median->index;i++) {
 		LOG_DEBUG(" %lf,",median->data[i]);
 	}
