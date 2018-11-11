@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "median.h"
+#include "lib/logger/macrologger.h"
+#include "helper.h"
 
 int median_init(median_t **median, int size)
 {
@@ -35,14 +37,16 @@ int median_init(median_t **median, int size)
 	(*median)->data = (MEDIAN_DATA_TYPE*) calloc(sizeof(MEDIAN_DATA_TYPE) * size, sizeof(MEDIAN_DATA_TYPE));
 	(*median)->size = size;
 	(*median)->index = 0;
-	return 0;
+
+	return CONN_OK;
 }
 
 int median_uninit(median_t *median)
 {
 	free(median->data);
 	free(median);
-	return 0;
+
+	return CONN_OK;
 }
 
 int median_add_number(median_t *median, MEDIAN_DATA_TYPE number)
@@ -52,11 +56,9 @@ int median_add_number(median_t *median, MEDIAN_DATA_TYPE number)
 	}
 	median->data[median->index] = number;
 	median->index = median->index + 1;
+	LOG_DEBUG("median->index : %d, median->size : %d , number : %lf", median->index, median->size, number);
 
-	printf("median->index : %d, median->size : %d , number : %lf\n", median->index, median->size, number);
-	for(int i = 0;i<median->index;i++) printf(" %lf ",median->data[i]);
-	printf("\n");
-	return 0;
+	return CONN_OK;
 }
 
 static int median_compare (const void * a, const void * b)
@@ -72,6 +74,11 @@ static int median_compare (const void * a, const void * b)
 double median_find_median(median_t *median)
 {
 	qsort(median->data, median->index, sizeof(MEDIAN_DATA_TYPE), median_compare);
+	/* For debugging purposes */
+	for(int i = 0;i<median->index;i++) {
+		LOG_DEBUG(" %lf,",median->data[i]);
+	}
+
 	if(median->index == 0) {
 		return 0;
 	} else if(median->index == 1) {
@@ -81,7 +88,8 @@ double median_find_median(median_t *median)
 				(median->data[(median->index-1)/2]+median->data[((median->index-1)/2)+1])/2.0 :
 				median->data[median->index/2];
 	}
-	return 0;
+
+	return CONN_OK;
 }
 
 

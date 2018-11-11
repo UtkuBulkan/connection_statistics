@@ -25,6 +25,7 @@
 */
 
 #include "connect_statistics.h"
+#include "helper.h"
 
 int accumulate_statistics(connection_statistics_median_t *connection_statistics_median,
 				    connection_statistics_t *connection_statistics)
@@ -33,7 +34,8 @@ int accumulate_statistics(connection_statistics_median_t *connection_statistics_
 	median_add_number(connection_statistics_median->connect_time, connection_statistics->connect_time);
 	median_add_number(connection_statistics_median->starttransfer_time, connection_statistics->starttransfer_time);
 	median_add_number(connection_statistics_median->total_time, connection_statistics->total_time);
-	return 0;
+
+	return CONN_OK;
 }
 
 int connection_statistics_median_init(connection_statistics_median_t *connection_statistics_median, int max_requests)
@@ -42,7 +44,8 @@ int connection_statistics_median_init(connection_statistics_median_t *connection
 	median_init(&connection_statistics_median->connect_time, max_requests);
 	median_init(&connection_statistics_median->starttransfer_time, max_requests);
 	median_init(&connection_statistics_median->total_time, max_requests);
-	return 0;
+
+	return CONN_OK;
 }
 
 int connection_statistics_median_uninit(connection_statistics_median_t *connection_statistics_median)
@@ -51,5 +54,6 @@ int connection_statistics_median_uninit(connection_statistics_median_t *connecti
 	median_uninit(connection_statistics_median->connect_time);
 	median_uninit(connection_statistics_median->starttransfer_time);
 	median_uninit(connection_statistics_median->total_time);
-	return 0;
+
+	return CONN_OK;
 }

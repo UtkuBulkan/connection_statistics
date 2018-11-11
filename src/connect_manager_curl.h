@@ -28,6 +28,7 @@
 
 int init_with_curl(void);
 int uninit_with_curl(void);
+int enable_http_logs_with_curl(int enable);
 int set_url_with_curl(const char* url);
 int get_ip_address_with_curl(char **ip);
 int get_http_response_code_with_curl(long *http_response_code);

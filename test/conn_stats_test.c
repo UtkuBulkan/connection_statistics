@@ -31,9 +31,19 @@
 
 #include "connect_manager_curl.h"
 #include "connect_manager.h"
+#include "helper.h"
 
 static int print_statistics(connection_manager_t *connection_manager, connection_statistics_median_t *connection_statistics_median)
 {
+#if 0
+	char *string_list[]={"IP address of HTTP server: ",
+						"HTTP response code: ",
+						"median of CURLINFO_NAMELOOKUP_TIME: ",
+						"median of CURLINFO_CONNECT_TIME: ",
+						"median of CURLINFO_STARTTRANSFER_TIME: ",
+						"median of CURLINFO_TOTAL_TIME: "};
+#endif
+	char *string_list[]={"", "", "", "", "", ""};
     char *ip;
     long code;
 
@@ -41,38 +51,44 @@ static int print_statistics(connection_manager_t *connection_manager, connection
     connection_manager->get_http_response_code(&code);
 
     printf("SKTEST;"
-    	"<IP address of HTTP server: %s>;"
-    	"<HTTP response code: %3ld>;"
-		"<median of CURLINFO_NAMELOOKUP_TIME: %lf>;"
-		"<median of CURLINFO_CONNECT_TIME: %lf>;"
-		"<median of CURLINFO_STARTTRANSFER_TIME: %lf>;"
-		"<median of CURLINFO_TOTAL_TIME: %lf>\n",
-		ip,
-		code,
-		median_find_median(connection_statistics_median->namelookup_time),
-		median_find_median(connection_statistics_median->connect_time),
-		median_find_median(connection_statistics_median->starttransfer_time),
-		median_find_median(connection_statistics_median->total_time));
+    	"<%s%s>;"
+    	"<%s%3ld>;"
+		"<%s%lf>;"
+		"<%s%lf>;"
+		"<%s%lf>;"
+		"<%s%lf>\n",
+		string_list[0], ip,
+		string_list[1], code,
+		string_list[2], median_find_median(connection_statistics_median->namelookup_time),
+		string_list[3], median_find_median(connection_statistics_median->connect_time),
+		string_list[4], median_find_median(connection_statistics_median->starttransfer_time),
+		string_list[5], median_find_median(connection_statistics_median->total_time));
     free(ip);
-    return 0;
+
+	return CONN_OK;
 }
 
 int main(int argc, char *argv[]) {
 	connection_statistics_median_t connection_statistics_median;
 	connection_statistics_t connection_statistics;
     connection_manager_t connection_manager;
-    int max_requests = 1;
+    int max_requests = 1, enable_http_logs_flag = 0;
     int option = 0;
 
-    while ((option = getopt(argc, argv,"H:n:")) != -1) {
+    /* Assigning functions for connection manager with curl library functions (default is curl) */
+	set_connection_library_api(&connection_manager);
+
+    while ((option = getopt(argc, argv,"lH:n:")) != -1) {
         switch (option) {
              case 'H' :
             	 connection_manager.change_http_header(optarg);
                  break;
              case 'n' :
             	 max_requests = atoi(optarg);
-				 //connection_manager.change_number_of_max_requests(max_requests);
                  break;
+             case 'l' :
+            	 enable_http_logs_flag = 0;
+            	 break;
              default:
                  return -1;
         }
@@ -81,11 +97,9 @@ int main(int argc, char *argv[]) {
     memset(&(connection_statistics), 0, sizeof(connection_statistics_t));
 	connection_statistics_median_init(&connection_statistics_median, max_requests);
 
-	/* Assigning function pointers of connection manager with curl library functions (default is curl) */
-	set_connection_library_api(&connection_manager);
-
 	/* Initializing connection manager */
 	connection_manager.init();
+	connection_manager.enable_http_logs(enable_http_logs_flag);
     connection_manager.set_url("http://www.google.com/");
 
     /* Triggering n number of requests and collection statistics while calculating medians */
@@ -98,5 +112,6 @@ int main(int argc, char *argv[]) {
     /* Uninitializing connection manager */
     connection_manager.uninit();
     connection_statistics_median_uninit(&connection_statistics_median);
-    return 0;
+
+	return CONN_OK;
 }

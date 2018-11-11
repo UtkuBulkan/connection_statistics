@@ -26,6 +26,7 @@
 
 typedef int (*init_func)(void);
 typedef int (*uninit_func)(void);
+typedef int (*enable_http_logs_func)(int enable);
 typedef int (*set_url_func)(const char *url);
 typedef int (*get_ip_address_func)(char **ip);
 typedef int (*get_http_response_code_func)(long *http_response_code);
@@ -38,6 +39,7 @@ typedef struct connection_manager_s
 {
     init_func init;
     uninit_func uninit;
+    enable_http_logs_func enable_http_logs;
     set_url_func set_url;
     get_ip_address_func get_ip_address;
     get_http_response_code_func get_http_response_code;
