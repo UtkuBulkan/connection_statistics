@@ -3,8 +3,11 @@
 
 Usage :
 git clone --recurse-submodules https://github.com/UtkuBulkan/connection_statistics.git conn_stats
+
 cd conn_stats
+
 make
+
 make test
 
 And below is the expected output :
