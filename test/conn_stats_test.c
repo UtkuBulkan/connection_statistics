@@ -50,7 +50,7 @@ static int print_statistics(connection_manager_t *connection_manager, connection
     connection_manager->get_ip_address(&ip);
     connection_manager->get_http_response_code(&code);
 
-    printf("SKTEST;"
+    printf("TEST"
     	"<%s%s>;"
     	"<%s%3ld>;"
 		"<%s%lf>;"
