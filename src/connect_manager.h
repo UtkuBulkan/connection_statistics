@@ -22,7 +22,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 typedef int (*init_func)(void);
 typedef int (*uninit_func)(void);
@@ -37,16 +37,16 @@ typedef int (*collect_statistics_func)(connection_statistics_t *connection_stati
 
 typedef struct connection_manager_s
 {
-    init_func init;
-    uninit_func uninit;
-    enable_http_logs_func enable_http_logs;
-    set_url_func set_url;
-    get_ip_address_func get_ip_address;
-    get_http_response_code_func get_http_response_code;
-    change_http_header_func change_http_header;
-    change_number_of_max_requests_func change_number_of_max_requests;
-    perform_connection_request_func perform_connection_request;
-    collect_statistics_func collect_statistics;
+	init_func init;
+	uninit_func uninit;
+	enable_http_logs_func enable_http_logs;
+	set_url_func set_url;
+	get_ip_address_func get_ip_address;
+	get_http_response_code_func get_http_response_code;
+	change_http_header_func change_http_header;
+	change_number_of_max_requests_func change_number_of_max_requests;
+	perform_connection_request_func perform_connection_request;
+	collect_statistics_func collect_statistics;
 } connection_manager_t;
 
 int set_connection_library_api(connection_manager_t *connection_manager);

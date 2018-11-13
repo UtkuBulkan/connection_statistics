@@ -22,13 +22,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 #include "connect_statistics.h"
 #include "helper.h"
 
 int accumulate_statistics(connection_statistics_median_t *connection_statistics_median,
-				    connection_statistics_t *connection_statistics)
+		connection_statistics_t *connection_statistics)
 {
 	median_add_number(connection_statistics_median->namelookup_time, connection_statistics->namelookup_time);
 	median_add_number(connection_statistics_median->connect_time, connection_statistics->connect_time);

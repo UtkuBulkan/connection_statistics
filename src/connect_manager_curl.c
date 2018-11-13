@@ -22,7 +22,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 #include <string.h>
 #include "connect_manager_curl.h"
@@ -37,16 +37,16 @@ int init_with_curl(void)
 {
 	curl_version_info_data *data;
 	(void)data;
-    curl = curl_easy_init();
-    data = curl_version_info(CURLVERSION_NOW);
-    LOG_DEBUG("Curl Version : %s", data->version);
+	curl = curl_easy_init();
+	data = curl_version_info(CURLVERSION_NOW);
+	LOG_DEBUG("Curl Version : %s", data->version);
 
-    return CONN_OK;
+	return CONN_OK;
 }
 
 int uninit_with_curl(void)
 {
-    /* always cleanup */
+	/* always cleanup */
 	curl_slist_free_all(header_list); /* free the list again */
 	curl_easy_cleanup(curl);
 
@@ -57,6 +57,7 @@ static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp)
 {
 	(void)buffer;
 	(void)userp;
+
 	return size * nmemb;
 }
 
@@ -97,33 +98,34 @@ static int my_trace(CURL *handle, curl_infotype type, char *data, size_t size, v
 	(void)userp;
 
 	switch (type) {
-		case CURLINFO_TEXT:
-			fprintf(stderr, "== Info: %s", data);
-		default: /* in case a new one is introduced to shock us */
-			return 0;
-		case CURLINFO_HEADER_OUT:
-			text = "=> Send header";
-			break;
-		case CURLINFO_DATA_OUT:
-			text = "=> Send data";
-			break;
-		case CURLINFO_SSL_DATA_OUT:
-			text = "=> Send SSL data";
-			break;
-		case CURLINFO_HEADER_IN:
-			text = "<= Recv header";
-			break;
-		case CURLINFO_DATA_IN:
-			text = "<= Recv data";
-			break;
-		case CURLINFO_SSL_DATA_IN:
-			text = "<= Recv SSL data";
-			break;
+	case CURLINFO_TEXT:
+		fprintf(stderr, "== Info: %s", data);
+	default: /* in case a new one is introduced to shock us */
+		return 0;
+	case CURLINFO_HEADER_OUT:
+		text = "=> Send header";
+		break;
+	case CURLINFO_DATA_OUT:
+		text = "=> Send data";
+		break;
+	case CURLINFO_SSL_DATA_OUT:
+		text = "=> Send SSL data";
+		break;
+	case CURLINFO_HEADER_IN:
+		text = "<= Recv header";
+		break;
+	case CURLINFO_DATA_IN:
+		text = "<= Recv data";
+		break;
+	case CURLINFO_SSL_DATA_IN:
+		text = "<= Recv SSL data";
+		break;
 	}
 	file_out = fopen("./example_http_comm.txt", "a+");
 	dump(text, file_out, (unsigned char *)data, size);
 	fclose(file_out);
-	return 0;
+
+	return CONN_OK;
 }
 
 int enable_http_logs_with_curl(int enable)
@@ -191,7 +193,7 @@ int get_http_response_code_with_curl(long *http_response_code)
 		return CONN_FAIL;
 	}
 
-    return CONN_OK;
+	return CONN_OK;
 }
 
 int change_http_header_with_curl(const char *header)
@@ -217,12 +219,12 @@ int change_number_of_max_requests_with_curl(int n)
 	CURLcode res = CURLE_OK;
 
 	res = curl_easy_setopt(curl, CURLOPT_MAXCONNECTS, n);
-    if(res != CURLE_OK) {
-    	LOG_DEBUG("curl_easy_setopt() failed: %s\n", curl_easy_strerror(res));
-    	return CONN_FAIL;
+	if(res != CURLE_OK) {
+		LOG_DEBUG("curl_easy_setopt() failed: %s\n", curl_easy_strerror(res));
+		return CONN_FAIL;
 	}
 
-    return CONN_OK;
+	return CONN_OK;
 }
 
 int perform_connection_request_with_curl()
@@ -230,12 +232,12 @@ int perform_connection_request_with_curl()
 	CURLcode res;
 
 	res = curl_easy_perform(curl);
-    if(res != CURLE_OK) {
-    	LOG_DEBUG("curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-    	return CONN_FAIL;
-    }
+	if(res != CURLE_OK) {
+		LOG_DEBUG("curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+		return CONN_FAIL;
+	}
 
-    return CONN_OK;
+	return CONN_OK;
 }
 
 int collect_statistics_with_curl(connection_statistics_t *connection_statistics)
